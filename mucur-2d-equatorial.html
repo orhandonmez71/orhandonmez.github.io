@@ -8,7 +8,7 @@
 <meta name="description" content="A general-relativistic magnetohydrodynamics code for flows in the orbital plane (r, φ) of a black hole, at θ = π/2.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Hanken+Grotesk:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 /* VOICE: a research-group code page; calm, exact, confident, no hype.
    IDEA: an atlas plate of the meridional half-plane, the thing the code actually evolves.
@@ -141,6 +141,59 @@ html{scroll-padding-top:24px}
 .side.open{max-height:100vh;overflow-y:auto}
 html{scroll-padding-top:76px}
 }
+/* ---- THEME: crimson & white, night hero bands, wide display headings ---- */
+:root{--bg:#ffffff;--bg2:#fff3f4;--line:#f1d4d8;--ink:#1a1214;--soft:#4b3c40;--sky:#c8102e;--pink:#ff3b55;--night:#12070a;--crim:#8f0f22}
+h1,h2,h3,.brand b,.kpi .v,.fam h3{font-family:"Archivo","Hanken Grotesk",sans-serif;font-stretch:115%}
+h1{font-weight:300;font-size:clamp(38px,6vw,64px);letter-spacing:-.015em}
+h1 b{font-weight:800}
+h2{font-weight:700;font-size:clamp(28px,3.4vw,40px);letter-spacing:-.01em}
+h3{font-weight:700;font-size:19px}
+a{color:var(--sky)}
+.hero{background:radial-gradient(120% 95% at 65% 100%,#5a0b1a 0%,#250a10 45%,#12070a 100%);color:#fff;border-top:0}
+.hero .lead{color:#f4d7dc}
+.hero .small,.hero figcaption{color:#d8b3ba}
+.hero .chips li{border-color:rgba(255,255,255,.22);color:#f4d7dc;background:rgba(255,255,255,.04)}
+.hero .chips li b{color:#fff}
+.hero h1 b{background:linear-gradient(90deg,#ffffff 0%,#ffc2cb 60%,#ff3b55 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .plate .lab{fill:#f4d7dc}
+.hero .plate .lab.k{fill:#ffffff}
+.alt{background:var(--bg2)}
+.fam{border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 1px 2px rgba(143,15,34,.05)}
+a.fam:hover{border-color:var(--sky);box-shadow:0 14px 34px -14px rgba(200,16,46,.45)}
+.fam .tag{display:inline-block;align-self:flex-start;background:#ffe6ea;color:var(--crim);border-radius:999px;padding:2px 10px;font-weight:600}
+.fam .go{color:var(--sky)}
+.red{background:linear-gradient(135deg,#b80f29 0%,#8f0f22 55%,#5c0814 100%);color:#fff;border-top:0}
+.red p,.red .muted,.red li{color:#ffe3e7}
+.red a{color:#fff;text-decoration-color:rgba(255,255,255,.6)}
+.red h2,.red h3{color:#fff}
+.red .chips.gr li{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+.red ul.dots li::marker{color:#fff}
+.kpi{border-top:3px solid var(--sky)}
+.kpi .v{color:var(--sky);font-weight:600}
+th{background:#fff3f4;color:var(--crim)}
+.alt th{background:#ffe9ec}
+.eq{border-left-color:var(--sky);background:#fff}
+.steps li{background:#fff;border-radius:16px}
+.contact{border:0;background:linear-gradient(135deg,#c8102e,#8f0f22);color:#fff;box-shadow:0 18px 40px -20px rgba(143,15,34,.7)}
+.contact h3,.contact p{color:#fff}
+.contact a{color:#fff;font-weight:600}
+.slot{border-color:#e9b9c0;background:repeating-linear-gradient(135deg,#fff 0 14px,#fff3f4 14px 28px)}
+footer{background:var(--night);color:#d8b3ba;border-top:0}
+footer a{color:#ffc2cb}
+.side{background:linear-gradient(180deg,#9e1026 0%,#6e0a1a 60%,#3e0610 100%);border-right:0;color:#fff}
+.brand,.brand b{color:#fff}
+.brand span{color:#ffc9d1}
+.menu .h{color:#ffb3be}
+.menu a{color:#ffe7ea}
+.menu a:hover{background:rgba(255,255,255,.12)}
+.menu a[aria-current=page]{background:#fff;color:var(--crim)}
+.menu ul{border-left-color:rgba(255,255,255,.25)}
+.menu ul a{color:#ffc9d1}
+.menu ul a.on{background:rgba(255,255,255,.14);color:#fff}
+.side .mail{color:#ffb3be}
+.side .mail a{color:#fff}
+.layout{background:linear-gradient(90deg,#3e0610 272px,transparent 272px)}
+@media(max-width:900px){.menu-btn{background:#fff;color:var(--crim);border-color:#fff}.layout{background:none}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -161,7 +214,7 @@ html{scroll-padding-top:76px}
   <p class="mail">Contact<br><a href="mailto:orhan.donmez71@gmail.com">orhan.donmez71@gmail.com</a></p>
 </aside>
 <main class="main">
-<header class="band">
+<header class="band hero">
   <div class="wrap">
     <h1><b>MUCUR GRMHD</b> 2D Equatorial Plane</h1>
     <p class="lead">A general-relativistic magnetohydrodynamics code for flows in the orbital plane (r, φ) of a black hole, at θ = π/2.</p>
