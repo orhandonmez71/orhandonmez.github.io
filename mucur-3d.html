@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>document.documentElement.classList.add('js')</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MUCUR GRMHD 3D</title>
@@ -36,6 +37,7 @@ p{margin:0 0 14px;max-width:70ch}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
 .chips li{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--soft);white-space:nowrap}
 .chips li b{color:var(--ink);font-weight:600}
+.chips.gr li{background:var(--bg2);color:var(--ink);border-color:var(--line)}
 .plate{margin:26px 0 0;position:relative}
 .plate svg{display:block;width:100%;height:auto}
 .plate .lab{font:400 22px "Hanken Grotesk",sans-serif;fill:#3d3d3d}
@@ -110,13 +112,57 @@ a.fam p{flex:1}
 .btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--sky);color:#fff;font-weight:600;text-decoration:none}
 .btn:hover{background:#161616}
 @media(prefers-reduced-motion:reduce){a.fam{transition:none}a.fam:hover{transform:none}}
+.layout{display:grid;grid-template-columns:272px minmax(0,1fr)}
+.side{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--line);padding:26px 16px 30px}
+.brand{display:block;color:var(--ink);text-decoration:none;padding:0 10px}
+.brand b{display:block;font-size:22px;line-height:1.15;font-weight:600}
+.brand span{display:block;font-size:13px;color:var(--soft);margin-top:2px}
+.menu-btn{display:none}
+.menu{list-style:none;margin:20px 0 0;padding:0}
+.menu .h{font-size:13px;color:var(--soft);margin:20px 10px 6px}
+.menu a{display:flex;align-items:center;min-height:42px;padding:6px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.3}
+.menu a:hover{background:#fff}
+.menu a[aria-current=page]{background:var(--sky);color:#fff;font-weight:600}
+.menu ul{list-style:none;margin:4px 0 8px 18px;padding:0 0 0 10px;border-left:1px solid var(--line)}
+.menu ul a{min-height:36px;font-size:14px;color:var(--soft);padding:4px 10px}
+.menu ul a.on{color:var(--sky);font-weight:600;background:#fff}
+.side .mail{margin:26px 10px 0;font-size:14px;color:var(--soft)}
+.side .mail a{overflow-wrap:anywhere}
+html{scroll-padding-top:24px}
+@media(max-width:900px){
+.layout{display:block}
+.side{height:auto;max-height:100vh;z-index:20;padding:8px max(5vw,16px);border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px}
+.brand{padding:0}.brand b{font-size:18px}.brand span{display:none}
+.menu-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:600 15px "Hanken Grotesk",sans-serif;cursor:pointer}
+.menu-btn:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.js .side .menu,.js .side .mail{display:none}
+.js .side.open .menu,.js .side.open .mail{display:block}
+.side .menu,.side .mail{flex-basis:100%}
+.side.open{max-height:100vh;overflow-y:auto}
+html{scroll-padding-top:76px}
+}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><b>MUCUR GRMHD</b><span>GRMHD codes for black-hole astrophysics</span></a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav aria-label="Site">
+  <ul class="menu" id="menu">
+    <li><a href="index.html">Home</a></li>
+    <li class="h">Codes</li>
+    <li><a href="mucur-2d-meridional.html">2D Meridional plane</a></li>
+    <li><a href="mucur-2d-equatorial.html">2D Equatorial plane</a></li>
+    <li><a href="mucur-3d.html" aria-current="page">3D</a></li>
+  </ul>
+  </nav>
+  <p class="mail">Contact<br><a href="mailto:orhan.donmez71@gmail.com">orhan.donmez71@gmail.com</a></p>
+</aside>
+<main class="main">
 <header class="band">
   <div class="wrap">
-    <a class="back" href="index.html">← All MUCUR GRMHD codes</a>
     <h1><b>MUCUR GRMHD</b> 3D</h1>
     <p class="lead">A general-relativistic magnetohydrodynamics code for the full three-dimensional (r, θ, φ) problem around black holes.</p>
   </div>
@@ -135,11 +181,24 @@ a.fam p{flex:1}
     <p style="margin-top:18px">If your problem needs this geometry, you can already contact us about a collaboration.</p>
     <div class="contact">
       <h3>Contact</h3>
-      <!-- EDIT: put your name, institution and e-mail address here -->
-      <p style="margin:0">To discuss a collaboration, write to us with a short description of your problem. Contact details will be added here.</p>
+      <p style="margin:0 0 8px">To discuss a collaboration, write to us with a short description of your problem.</p>
+      <p style="margin:0">E-mail: <a href="mailto:orhan.donmez71@gmail.com">orhan.donmez71@gmail.com</a></p>
     </div>
   </div>
 </section>
 <footer><div class="wrap">MUCUR GRMHD code family<div class="links"><a href="index.html">All MUCUR GRMHD codes</a><a href="mucur-2d-meridional.html">2D Meridional plane</a><a href="mucur-2d-equatorial.html">2D Equatorial plane</a><a href="mucur-3d.html" aria-current="page">3D</a></div></div></footer>
+</main>
+</div>
+<script>{
+const side=document.getElementById('side'),btn=side.querySelector('.menu-btn');
+btn.addEventListener('click',()=>{const o=side.classList.toggle('open');btn.setAttribute('aria-expanded',o);btn.textContent=o?'Close':'Menu'});
+side.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>{side.classList.remove('open');btn.setAttribute('aria-expanded',false);btn.textContent='Menu'}));
+const subs=[...side.querySelectorAll('.menu ul a')];
+if(subs.length&&'IntersectionObserver' in window){
+  const map=new Map(subs.map(a=>[a.getAttribute('href').slice(1),a]));
+  const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){subs.forEach(x=>x.classList.remove('on'));map.get(e.target.id)?.classList.add('on')}})},{rootMargin:'-30% 0px -60% 0px'});
+  map.forEach((a,id)=>{const s=document.getElementById(id);if(s)spy.observe(s)});
+}
+}</script>
 </body>
 </html>
