@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MUCUR GRMHD 2D Equatorial</title>
+<meta name="description" content="A general-relativistic magnetohydrodynamics code for flows in the orbital plane (r, φ) of a black hole, at θ = π/2.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a research-group code page; calm, exact, confident, no hype.
+   IDEA: an atlas plate of the meridional half-plane, the thing the code actually evolves.
+   PICTURE: the (r, θ) half-plane drawn wide: Kerr hole, ergosphere, polar grid, collimated field lines, twin jets along the axis.
+   COLOUR and TYPE: deep sea ground, sky lines, white text, one signal pink; Hanken Grotesk 300 large + Hanken Grotesk.
+   LAYOUT: title band, full-width plate, section links, then strips of spec sheets, figures on white plates, workflow and references. */
+:root{color-scheme:light;--bg:#ffffff;--bg2:#fbf1f1;--line:#ecd3d3;--ink:#161616;--soft:#3d3d3d;--sky:#b3122a;--pink:#d7263d}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:light}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+a{color:var(--sky);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--pink);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.band+.band{border-top:1px solid var(--line)}
+.alt{background:var(--bg2)}
+h1{font-weight:300;font-size:clamp(34px,5.4vw,52px);line-height:1.05;margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em}
+h1 b{font-weight:600}
+h2{font-weight:300;font-size:clamp(28px,3.6vw,38px);line-height:1.1;margin:0 0 18px;text-wrap:balance}
+h3{font-size:19px;font-weight:600;margin:0 0 6px}
+p{margin:0 0 14px;max-width:70ch}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--soft);max-width:62ch}
+.muted{color:var(--soft)}
+.small{font-size:14px;color:var(--soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.chips li{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--soft);white-space:nowrap}
+.chips li b{color:var(--ink);font-weight:600}
+.plate{margin:26px 0 0;position:relative}
+.plate svg{display:block;width:100%;height:auto}
+.plate .lab{font:400 22px "Hanken Grotesk",sans-serif;fill:#3d3d3d}
+.plate .lab.k{fill:#161616;font-weight:600}
+.plate .lab.p{fill:var(--sky)}
+.plate figcaption{margin-top:10px}
+@media(max-width:600px){.plate .lab{display:none}}
+nav.scroll{position:relative;display:flex;gap:4px;padding:8px max(5vw,16px);background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);white-space:nowrap;z-index:5}
+nav.scroll a{color:var(--soft);text-decoration:none;padding:10px 12px;border-radius:8px;font-size:15px;flex:none}
+nav.scroll a:hover{color:var(--ink);background:var(--bg2)}
+@media(min-width:900px){nav.scroll{position:sticky;top:0}}
+pre,.scroll{overflow-x:auto}
+.family{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:8px}
+.fam{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:var(--bg)}
+.fam.on{border-color:var(--sky);box-shadow:inset 0 0 0 1px var(--sky)}
+.fam{box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.fam .st{font-size:14px;color:var(--soft)}
+.fam.on .st{color:var(--sky)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:start}
+ul.dots{margin:0;padding-left:20px}
+ul.dots li{margin:0 0 8px;max-width:66ch}
+ul.dots li::marker{color:var(--pink)}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--soft);font-size:14px}
+.ids td:first-child{white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.spec th[scope=row]{color:var(--ink);font-size:16px;width:30%;white-space:normal}
+.white{background:#fff;border:1px solid var(--line);border-radius:12px;padding:clamp(8px,1.5vw,18px);margin:0}
+.white img{display:block;width:100%;height:auto}
+figure{margin:0}
+figcaption{font-size:14px;color:var(--soft);margin-top:10px;max-width:90ch}
+.domain{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr);gap:clamp(20px,4vw,56px);align-items:center}
+.domain .white{max-width:420px;justify-self:center}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0 28px}
+.kpi{border-top:2px solid var(--pink);padding-top:10px}
+.kpi .v{font-size:clamp(28px,3.4vw,40px);font-weight:300;line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi .t{font-size:14px;color:var(--soft)}
+.eq{font-size:19px;margin:8px 0 18px;padding:12px 16px;border-left:2px solid var(--sky);background:var(--bg);display:inline-block;max-width:100%}
+.eq i{font-family:"Hanken Grotesk",serif}
+.figs{display:grid;gap:26px;margin-top:26px}
+.steps{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;counter-reset:s}
+.steps li{counter-increment:s;border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--bg)}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sky);color:#fff;font-weight:600;margin-bottom:10px}
+.steps li.you::before{background:#161616}
+.steps li:last-child::before{background:linear-gradient(90deg,#161616 50%,var(--sky) 50%)}
+.who{font-size:13px;color:var(--soft);display:block;margin-bottom:4px}
+.soon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.slot{aspect-ratio:16/9;border:1px dashed var(--line);border-radius:14px;display:grid;place-items:center;text-align:center;padding:14px;color:var(--soft);font-size:15px;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(179,18,42,.04) 14px 28px)}
+.slot b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+ol.refs{padding-left:22px;font-size:15px;color:var(--soft)}
+ol.refs li{margin-bottom:6px}
+ol.refs i{color:var(--ink);font-style:normal}
+.contact{border:1px solid var(--sky);border-radius:14px;padding:18px 20px;margin-top:22px;max-width:640px}
+footer{padding:28px max(5vw,16px);border-top:1px solid var(--line);font-size:14px;color:var(--soft)}
+.glow{animation:pulse 6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.6}}
+@media(prefers-reduced-motion:reduce){.glow{animation:none}html{scroll-behavior:auto}}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.family,.cols,.domain,.soon{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){body{font-size:16px}.steps{grid-template-columns:minmax(0,1fr)}table{font-size:13px}
+.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td,.stack th[scope=row]{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start;width:auto}.stack th[scope=row]{padding-inline-start:0;font-weight:600}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--soft)}.stack td:empty{display:none}}
+
+a.fam{display:flex;flex-direction:column;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+a.fam:hover{border-color:var(--sky);transform:translateY(-2px)}
+a.fam p{flex:1}
+.fam .go{font-weight:600;color:var(--sky)}
+.fam .tag{font-size:13px;color:var(--soft);margin-bottom:6px}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--soft);text-decoration:none;font-size:15px;margin-bottom:6px}
+.back:hover{color:var(--ink)}
+.links{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--sky);color:#fff;font-weight:600;text-decoration:none}
+.btn:hover{background:#161616}
+@media(prefers-reduced-motion:reduce){a.fam{transition:none}a.fam:hover{transform:none}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <a class="back" href="index.html">← All MUCUR GRMHD codes</a>
+    <h1><b>MUCUR GRMHD</b> 2D Equatorial Plane</h1>
+    <p class="lead">A general-relativistic magnetohydrodynamics code for flows in the orbital plane (r, φ) of a black hole, at θ = π/2.</p>
+  </div>
+</header>
+<section class="band alt">
+  <div class="wrap">
+    <h2>Details coming soon</h2>
+    <p>This page will describe the code in the same way as the <a href="mucur-2d-meridional.html">2D Meridional page</a>:</p>
+    <ul class="dots">
+      <li>Physics and numerical method</li>
+      <li>The computational domain and boundary conditions</li>
+      <li>Code tests and validation results</li>
+      <li>Output and analysis tools</li>
+      <li>Astrophysical simulations and movies</li>
+    </ul>
+    <p style="margin-top:18px">If your problem needs this geometry, you can already contact us about a collaboration.</p>
+    <div class="contact">
+      <h3>Contact</h3>
+      <!-- EDIT: put your name, institution and e-mail address here -->
+      <p style="margin:0">To discuss a collaboration, write to us with a short description of your problem. Contact details will be added here.</p>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">MUCUR GRMHD code family<div class="links"><a href="index.html">All MUCUR GRMHD codes</a><a href="mucur-2d-meridional.html">2D Meridional plane</a><a href="mucur-2d-equatorial.html" aria-current="page">2D Equatorial plane</a><a href="mucur-3d.html">3D</a></div></div></footer>
+</body>
+</html>
