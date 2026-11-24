@@ -37,6 +37,7 @@ p{margin:0 0 14px;max-width:70ch}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
 .chips li{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--soft);white-space:nowrap}
 .chips li b{color:var(--ink);font-weight:600}
+@media(max-width:600px){.chips li{white-space:normal}}
 .chips.gr li{background:var(--bg2);color:var(--ink);border-color:var(--line)}
 .plate{margin:26px 0 0;position:relative}
 .plate svg{display:block;width:100%;height:auto}
@@ -289,8 +290,8 @@ footer a{color:#e6e9ef}
     <h2>Choose the geometry of your problem</h2>
     <p class="muted">All three codes share the same physics core. Click a code to see its details.</p>
     <div class="family">
-      <a class="fam" href="mucur-2d-meridional.html"><span class="tag">2D · axisymmetric · release v4o</span><h3>2D Meridional plane</h3><p class="muted" style="margin:0 0 12px">Flows in the (r, θ) plane from pole to pole: jets and polar outflows, accretion along the spin axis, spherical inflow, magnetised black holes and the Blandford–Znajek process. Kerr and 70 modified-gravity space-times. Validated against the Blandford–Znajek power and the exact Michel solution.</p><span class="go">See details →</span></a>
-      <a class="fam" href="mucur-2d-equatorial.html"><span class="tag">2D · equatorial · release v24</span><h3>2D Equatorial plane</h3><p class="muted" style="margin:0 0 12px">Flows in the (r, φ) plane at θ = π/2, all the way around the hole: wind accretion, shock cones and their oscillations (flip-flop, QPOs), spirals, rotating discs and tori. Kerr and 70 modified-gravity space-times. Five test problems with exact or published solutions.</p><span class="go">See details →</span></a>
+      <a class="fam" href="mucur-2d-meridional.html"><span class="tag">2D · axisymmetric · release v4q</span><h3>2D Meridional plane</h3><p class="muted" style="margin:0 0 12px">Flows in the (r, θ) plane from pole to pole: jets and polar outflows, accretion along the spin axis, spherical inflow, magnetised black holes and the Blandford–Znajek process. Kerr and 70 modified-gravity space-times. Validated against the Blandford–Znajek power, the exact Michel solution, Bondi inflow onto a Kerr hole and Bondi–Hoyle–Lyttleton accretion.</p><span class="go">See details →</span></a>
+      <a class="fam" href="mucur-2d-equatorial.html"><span class="tag">2D · equatorial · release v24a</span><h3>2D Equatorial plane</h3><p class="muted" style="margin:0 0 12px">Flows in the (r, φ) plane at θ = π/2, all the way around the hole: wind accretion, shock cones and their oscillations (flip-flop, QPOs), spirals, rotating discs and tori. Kerr and 70 modified-gravity space-times. Five test problems with exact or published solutions; the magnetised Michel test passed with second-order convergence.</p><span class="go">See details →</span></a>
       <a class="fam" href="mucur-3d.html"><span class="tag">3D</span><h3>3D</h3><p class="muted" style="margin:0 0 12px">The full (r, θ, φ) problem, for flows that are neither axisymmetric nor confined to a plane.</p><span class="go">Details coming soon →</span></a>
     </div>
   </div>
