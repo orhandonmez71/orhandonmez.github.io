@@ -166,6 +166,20 @@ a:hover{text-decoration-color:currentColor}
 .hero .plate .lab.k{fill:#fff;font-weight:600}
 .hero .plate{margin:30px calc(-1 * max(5vw,16px)) 0}
 .hero .plate figcaption{padding:0 max(5vw,16px);max-width:none}
+/* ---- emphasised headings ---- */
+main h2{position:relative;padding-top:18px;color:#16181d}
+main h2::before{content:"";position:absolute;left:0;top:0;width:56px;height:4px;border-radius:2px;background:linear-gradient(90deg,#c8102e,#8f0f22)}
+.hero h2::before,.red h2::before{background:linear-gradient(90deg,#ff6b81,#c8102e)}
+.red h2{color:#fff}
+#validation>.wrap>h2,#setups>.wrap>h2{font-size:clamp(32px,4vw,46px)}
+.test-title{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:48px 0 18px;padding:16px 22px;border-radius:14px;
+  background:linear-gradient(135deg,#1f232a 0%,#14161b 100%);color:#fff;font-size:clamp(19px,2vw,23px);line-height:1.3;
+  border-left:5px solid #c8102e;box-shadow:0 14px 30px -18px rgba(0,0,0,.55)}
+.test-title .tt{flex:1 1 320px}
+.pill{flex:none;display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.pass{background:#d3f9d8;color:#1b6b2d}
+.pill.prog{background:#fff3bf;color:#8a5a00}
 .byline{margin:0 0 12px;font-size:16px;color:#d6dae1;letter-spacing:.01em}
 .byline a{color:#fff;font-weight:600;text-decoration-color:rgba(255,255,255,.45)}
 .hero a{color:#fff}
@@ -390,7 +404,7 @@ footer a{color:#e6e9ef}
     </table>
     </div>
 
-    <h3 id="test-bz" style="margin-top:40px;font-size:24px">Blandford–Znajek power of a split monopole (V1–V3): passed</h3>
+    <h3 id="test-bz" class="test-title"><span class="tt">Blandford–Znajek power of a split monopole (V1–V3)</span><span class="pill pass">Passed</span></h3>
     <p>The standard test for jet physics around a spinning black hole is a split-monopole magnetic field on the hole, in a strongly magnetised plasma (σ = b²/ρ = 50). Frame dragging forces the field lines to rotate, and they carry an outgoing Poynting flux that must match the Blandford–Znajek formula:</p>
     <div class="eq"><i>P</i><sub>BZ</sub> = κ Φ² Ω<sub>H</sub>²,&nbsp;&nbsp; κ = (1 + 1.38 Ω<sub>H</sub>² − 9.2 Ω<sub>H</sub>⁴) / 6π,&nbsp;&nbsp; Ω<sub>H</sub> = <i>a</i> / 2<i>r</i><sub>+</sub></div>
     <p>We ran the test for three spins in Kerr–Schild coordinates, with the horizon and the ergosphere on the grid: V1 (a = 0.9) and V2 (a = 0.5) on 1024 × 256 cells, and V3 (a = 0.99) on 2048 × 256 cells with r<sub>max</sub> = 100 M, to t = 80 M.</p>
@@ -427,7 +441,7 @@ footer a{color:#e6e9ef}
       </figure>
     </div>
 
-    <h3 id="test-michel" style="margin-top:44px;font-size:24px">Spherical accretion: Michel and Bondi flow (V4a, V4b, V5, V6): passed</h3>
+    <h3 id="test-michel" class="test-title"><span class="tt">Spherical accretion: Michel and Bondi flow (V4a, V4b, V5, V6)</span><span class="pill pass">Passed</span></h3>
     <p>Spherical accretion of an ideal gas (Γ = 4/3) onto a non-rotating black hole has an exact solution: the flow is subsonic far out, passes the sonic point (here at 8 M) and falls supersonically through the horizon. The exact state is injected at r<sub>max</sub> = 100 M at all angles, and the code must relax to the solution, with the accretion rate Ṁ = 876.13 and the Bernoulli constant −hu<sub>t</sub> = 1.17180 the same at every radius. Four runs of this family have passed, all in Kerr–Schild coordinates with the horizon on the grid, to t = 3000 M. None of them used a floor or had a failed inversion or NaN.</p>
     <div class="scroll">
     <table class="stack">
@@ -477,7 +491,7 @@ footer a{color:#e6e9ef}
       </figure>
     </div>
 
-    <h3 id="test-bhl" style="margin-top:44px;font-size:24px">Bondi–Hoyle–Lyttleton accretion along the spin axis (B2): passed</h3>
+    <h3 id="test-bhl" class="test-title"><span class="tt">Bondi–Hoyle–Lyttleton accretion along the spin axis (B2)</span><span class="pill pass">Passed</span></h3>
     <p>A uniform supersonic wind (Γ = 5/3, v<sub>∞</sub> = 0.5, Mach 5) flows along the axis past a Schwarzschild hole, on 1024 × 256 cells to r = 100 M and t = 2000 M. A strong shock forms behind the hole within 150 M and the cone widens until t ≈ 700 M; then the flow is exactly steady and axisymmetric, without the cone oscillations that appear in planar or 3D computations. There is no NaN, no failed inversion and no floor outside the horizon.</p>
     <ul class="dots">
       <li>Ṁ is the same through the four spheres from the accretion radius to 30 M and constant in time to 10<sup>−6</sup> after t = 1600 M.</li>
@@ -496,7 +510,7 @@ footer a{color:#e6e9ef}
       </figure>
     </div>
 
-    <h3 id="test-wald" style="margin-top:44px;font-size:24px">Kerr black hole in a uniform magnetic field (Wald, W1–W3): passed</h3>
+    <h3 id="test-wald" class="test-title"><span class="tt">Kerr black hole in a uniform magnetic field (Wald, W1–W3)</span><span class="pill pass">Passed</span></h3>
     <p>A Kerr hole is placed in a magnetic field that is uniform at infinity and aligned with the spin (the vacuum solution of Wald 1974), inside a magnetically dominated plasma as in Komissarov (2005). For a = 0 the field must stay where it is; for a rotating hole the field lines that thread the horizon must rotate and carry the Blandford–Znajek power out of the hole. W1 (a = 0), W2 (a = 0.5) and W3 (a = 0.9) ran on 1024 × 256 cells to t = 80 M with code release v4r, without a failed inversion, NaN or safety stop, and with relative ∇·B ≤ 8 × 10<sup>−13</sup>.</p>
     <div class="kpis">
       <div class="kpi"><div class="v">0.83–0.89</div><div class="t">outgoing power / P<sub>BZ</sub> with the measured horizon flux (W2, W3)</div></div>
