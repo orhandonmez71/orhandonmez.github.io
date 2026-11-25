@@ -163,7 +163,9 @@ a:hover{text-decoration-color:currentColor}
 .hero .chips li{border-color:rgba(255,255,255,.2);color:#d6dae1;background:rgba(255,255,255,.04)}
 .hero .chips li b{color:#fff}
 .hero .plate .lab{fill:#d6dae1}
-.hero .plate .lab.k{fill:#fff}
+.hero .plate .lab.k{fill:#fff;font-weight:600}
+.byline{margin:0 0 12px;font-size:16px;color:#d6dae1;letter-spacing:.01em}
+.byline a{color:#fff;font-weight:600;text-decoration-color:rgba(255,255,255,.45)}
 .hero a{color:#fff}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:30px 0 6px;max-width:980px}
 .stats div{border-top:1px solid rgba(255,255,255,.22);padding-top:12px}
@@ -226,7 +228,7 @@ footer a{color:#e6e9ef}
 <body>
 <div class="layout">
 <aside class="side" id="side">
-  <a class="brand" href="index.html"><b>MUCUR GRMHD</b><span>GRMHD codes for black-hole astrophysics</span></a>
+  <a class="brand" href="index.html"><b>MUCUR GRMHD</b><span>GRMHD codes for black-hole astrophysics, by Prof. Dr. Orhan Dönmez</span></a>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   <nav aria-label="Site">
   <ul class="menu" id="menu">
@@ -235,6 +237,8 @@ footer a{color:#e6e9ef}
     <li><a href="mucur-2d-meridional.html">2D Meridional plane</a></li>
     <li><a href="mucur-2d-equatorial.html" aria-current="page">2D Equatorial plane</a><ul><li><a href="#overview">Overview</a></li><li><a href="#method">Physics &amp; numerics</a></li><li><a href="#beyond-kerr">Beyond Kerr</a></li><li><a href="#domain">Domain</a></li><li><a href="#setups">Set-ups</a></li><li><a href="#validation">Validation</a></li><li><a href="#output">Output</a></li><li><a href="#collaborate">Collaboration</a></li><li><a href="#coming">Coming soon</a></li><li><a href="#references">References</a></li></ul></li>
     <li><a href="mucur-3d.html">3D</a></li>
+    <li class="h">Developer</li>
+    <li><a href="orhan-donmez.html">Prof. Dr. Orhan Dönmez</a></li>
   </ul>
   </nav>
   <p class="mail">Contact<br><a href="mailto:orhan.donmez71@gmail.com">orhan.donmez71@gmail.com</a></p>
@@ -385,7 +389,7 @@ footer a{color:#e6e9ef}
       <thead><tr><th>Test</th><th>Runs</th><th>What it tests</th><th>Status</th></tr></thead>
       <tbody>
         <tr><td><a href="#test-michel">Magnetised Michel accretion</a></td><td>M1, M2a–c, M4–M4c, M5</td><td>Gravity and sources against an exact solution; flow through the horizon; force-free radial field; primitive recovery up to σ ≈ 10<sup>3</sup>; order of convergence; Boyer–Lindquist against Kerr–Schild</td><td><b>M1, M2a–c, M5 passed</b>; M4 primitive recovery passed; M4b, M4c to be run</td></tr>
-        <tr><td>Gammie inflow inside the ISCO</td><td>G1a–c, G2</td><td>Magnetised inflow onto a Kerr hole (a = 0.5): frame dragging, coupled B<sup>r</sup>–B<sup>φ</sup>, cold gas; order of convergence; Boyer–Lindquist against Kerr–Schild</td><td>G1a run to t = 100 M, to be continued to 400 M; G1b, G1c, G2 to be run</td></tr>
+        <tr><td>Gammie inflow inside the ISCO</td><td>G1a–c, G2</td><td>Magnetised inflow onto a Kerr hole (a = 0.5): frame dragging, coupled B<sup>r</sup>–B<sup>φ</sup>, cold gas; order of convergence; Boyer–Lindquist against Kerr–Schild</td><td>G1a run to t = 395 M: stationary, Ṁ 2&nbsp;% high; G1b, G1c (order of convergence) and G2 to be run</td></tr>
         <tr><td>Equilibrium tori</td><td>T2, T3a, T3b</td><td>Long-term balance of pressure, centrifugal, gravitational and magnetic forces around a Kerr hole (a = 0.9); toroidal field</td><td>To be run</td></tr>
         <tr><td>Bondi–Hoyle–Lyttleton accretion</td><td>B2, B3, B4</td><td>Shocks in curved space; the shock cone and its stability; spin; the outer injection</td><td>To be run</td></tr>
         <tr><td>Field-loop advection by a rotating torus</td><td>L1a, L1b</td><td>Constrained transport in a sheared flow: numerical resistivity, ∇·B, loss of magnetic energy</td><td>To be run</td></tr>
@@ -433,7 +437,9 @@ footer a{color:#e6e9ef}
         <figcaption>Convergence M2a → M2b → M2c: L<sub>1</sub> norms and the spread of Ṁ (left), the errors of the fluxes and of the mass on the grid (right) against the grid spacing; dotted: slope 2. The legend gives the two orders.</figcaption>
       </figure>
     </div>
-    <p class="small" style="margin-top:12px">The results of GAMMIE, TORUS, BHL and LOOP will be added when the runs are complete.</p>
+    <h3 id="test-gammie" style="margin-top:40px;font-size:24px">Gammie inflow inside the ISCO (G1a): in progress</h3>
+    <p>Magnetised gas falls from the innermost stable circular orbit into a Kerr hole with a = 0.5, following an exact stationary solution with a wound-up toroidal field. G1a (Kerr–Schild, N<sub>r</sub> = 256) ran to t = 395 M. After a transient from the outer boundary drains into the hole, the flow is stationary from t ≈ 290 M: nothing changes by more than 6.5 × 10<sup>−4</sup> between the last snapshots, Ṁ is flat to 2 × 10<sup>−4</sup> inside r = 3.9 M, and the specific energy and angular momentum of the inflow are within 0.03&nbsp;% and 0.07&nbsp;% of the exact values. ∇·B stays at 10<sup>−15</sup> with no failed inversion. The accretion rate is 2&nbsp;% above the exact value; the runs at 512 and 1024 cells (G1b, G1c) will show whether this excess falls at second order.</p>
+    <p class="small" style="margin-top:12px">The results of G1b, G1c, G2, TORUS, BHL and LOOP will be added when the runs are complete.</p>
   </div>
 </section>
 
@@ -514,7 +520,7 @@ footer a{color:#e6e9ef}
     </ol>
   </div>
 </section>
-<footer><div class="wrap">MUCUR GRMHD code family<div class="links"><a href="index.html">All MUCUR GRMHD codes</a><a href="mucur-2d-meridional.html">2D Meridional plane</a><a href="mucur-2d-equatorial.html" aria-current="page">2D Equatorial plane</a><a href="mucur-3d.html">3D</a></div></div></footer>
+<footer><div class="wrap">MUCUR GRMHD code family<div class="links"><a href="index.html">All MUCUR GRMHD codes</a><a href="mucur-2d-meridional.html">2D Meridional plane</a><a href="mucur-2d-equatorial.html" aria-current="page">2D Equatorial plane</a><a href="mucur-3d.html">3D</a><a href="orhan-donmez.html">Prof. Dr. Orhan Dönmez</a></div></div></footer>
 </main>
 </div>
 <script>{

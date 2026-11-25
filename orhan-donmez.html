@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>document.documentElement.classList.add('js')</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prof. Dr. Orhan Dönmez</title>
+<meta name="description" content="Prof. Dr. Orhan Dönmez, Professor of Physics at the American University of the Middle East and developer of the MUCUR GRMHD codes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a research-group code page; calm, exact, confident, no hype.
+   IDEA: an atlas plate of the meridional half-plane, the thing the code actually evolves.
+   PICTURE: the (r, θ) half-plane on a night band: Kerr hole, ergosphere, polar grid, field lines, twin jets.
+   COLOUR and TYPE: white, light grey and charcoal; red only in the menu; IBM Plex Sans throughout, IBM Plex Mono for tags.
+   LAYOUT: crimson sidebar menu, night title band, then alternating white and grey strips. */
+:root{color-scheme:light;--bg:#ffffff;--bg2:#fbf1f1;--line:#ecd3d3;--ink:#161616;--soft:#3d3d3d;--sky:#b3122a;--pink:#d7263d}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:light}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+a{color:var(--sky);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--pink);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.band+.band{border-top:1px solid var(--line)}
+.alt{background:var(--bg2)}
+h1{font-weight:300;font-size:clamp(34px,5.4vw,52px);line-height:1.05;margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em}
+h1 b{font-weight:600}
+h2{font-weight:300;font-size:clamp(28px,3.6vw,38px);line-height:1.1;margin:0 0 18px;text-wrap:balance}
+h3{font-size:19px;font-weight:600;margin:0 0 6px}
+p{margin:0 0 14px;max-width:70ch}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--soft);max-width:62ch}
+.muted{color:var(--soft)}
+.small{font-size:14px;color:var(--soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.chips li{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;color:var(--soft);white-space:nowrap}
+.chips li b{color:var(--ink);font-weight:600}
+@media(max-width:600px){.chips li{white-space:normal}}
+.chips.gr li{background:var(--bg2);color:var(--ink);border-color:var(--line)}
+.plate{margin:26px 0 0;position:relative}
+.plate svg{display:block;width:100%;height:auto}
+.plate .lab{font:400 22px "IBM Plex Sans",sans-serif;fill:#3d3d3d}
+.plate .lab.k{fill:#161616;font-weight:600}
+.plate .lab.p{fill:var(--sky)}
+.plate figcaption{margin-top:10px}
+@media(max-width:600px){.plate .lab{display:none}}
+nav.scroll{position:relative;display:flex;gap:4px;padding:8px max(5vw,16px);background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);white-space:nowrap;z-index:5}
+nav.scroll a{color:var(--soft);text-decoration:none;padding:10px 12px;border-radius:8px;font-size:15px;flex:none}
+nav.scroll a:hover{color:var(--ink);background:var(--bg2)}
+@media(min-width:900px){nav.scroll{position:sticky;top:0}}
+pre,.scroll{overflow-x:auto}
+.family{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:8px}
+.fam{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:var(--bg)}
+.fam.on{border-color:var(--sky);box-shadow:inset 0 0 0 1px var(--sky)}
+.fam{box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.fam .st{font-size:14px;color:var(--soft)}
+.fam.on .st{color:var(--sky)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:start}
+ul.dots{margin:0;padding-left:20px}
+ul.dots li{margin:0 0 8px;max-width:66ch}
+ul.dots li::marker{color:var(--pink)}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--soft);font-size:14px}
+.ids td:first-child{white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.spec th[scope=row]{color:var(--ink);font-size:16px;width:30%;white-space:normal}
+.white{background:#fff;border:1px solid var(--line);border-radius:12px;padding:clamp(8px,1.5vw,18px);margin:0}
+.white img{display:block;width:100%;height:auto}
+figure{margin:0}
+figcaption{font-size:14px;color:var(--soft);margin-top:10px;max-width:90ch}
+.domain{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr);gap:clamp(20px,4vw,56px);align-items:center}
+.domain .white{max-width:420px;justify-self:center}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0 28px}
+.kpi{border-top:2px solid var(--pink);padding-top:10px}
+.kpi .v{font-size:clamp(28px,3.4vw,40px);font-weight:300;line-height:1.05;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi .t{font-size:14px;color:var(--soft)}
+.eq{font-size:19px;margin:8px 0 18px;padding:12px 16px;border-left:2px solid var(--sky);background:var(--bg);display:inline-block;max-width:100%}
+.eq i{font-family:"IBM Plex Sans",serif}
+.figs{display:grid;gap:26px;margin-top:26px}
+.steps{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;counter-reset:s}
+.steps li{counter-increment:s;border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--bg)}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sky);color:#fff;font-weight:600;margin-bottom:10px}
+.steps li.you::before{background:#161616}
+.steps li:last-child::before{background:linear-gradient(90deg,#161616 50%,var(--sky) 50%)}
+.who{font-size:13px;color:var(--soft);display:block;margin-bottom:4px}
+.soon{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.slot{aspect-ratio:16/9;border:1px dashed var(--line);border-radius:14px;display:grid;place-items:center;text-align:center;padding:14px;color:var(--soft);font-size:15px;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(179,18,42,.04) 14px 28px)}
+.slot b{display:block;color:var(--ink);font-weight:600;margin-bottom:4px}
+ol.refs{padding-left:22px;font-size:15px;color:var(--soft)}
+ol.refs li{margin-bottom:6px}
+ol.refs i{color:var(--ink);font-style:normal}
+.contact{border:1px solid var(--sky);border-radius:14px;padding:18px 20px;margin-top:22px;max-width:640px}
+footer{padding:28px max(5vw,16px);border-top:1px solid var(--line);font-size:14px;color:var(--soft)}
+.glow{animation:pulse 6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.6}}
+@media(prefers-reduced-motion:reduce){.glow{animation:none}html{scroll-behavior:auto}}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.family,.cols,.domain,.soon{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){body{font-size:16px}.steps{grid-template-columns:minmax(0,1fr)}table{font-size:13px}
+.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td,.stack th[scope=row]{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start;width:auto}.stack th[scope=row]{padding-inline-start:0;font-weight:600}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--soft)}.stack td:empty{display:none}}
+
+a.fam{display:flex;flex-direction:column;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+a.fam:hover{border-color:var(--sky);transform:translateY(-2px)}
+a.fam p{flex:1}
+.fam .go{font-weight:600;color:var(--sky)}
+.fam .tag{font-size:13px;color:var(--soft);margin-bottom:6px}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--soft);text-decoration:none;font-size:15px;margin-bottom:6px}
+.back:hover{color:var(--ink)}
+.links{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--sky);color:#fff;font-weight:600;text-decoration:none}
+.btn:hover{background:#161616}
+@media(prefers-reduced-motion:reduce){a.fam{transition:none}a.fam:hover{transform:none}}
+.layout{display:grid;grid-template-columns:272px minmax(0,1fr)}
+.side{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--line);padding:26px 16px 30px}
+.brand{display:block;color:var(--ink);text-decoration:none;padding:0 10px}
+.brand b{display:block;font-size:22px;line-height:1.15;font-weight:600}
+.brand span{display:block;font-size:13px;color:var(--soft);margin-top:2px}
+.menu-btn{display:none}
+.menu{list-style:none;margin:20px 0 0;padding:0}
+.menu .h{font-size:13px;color:var(--soft);margin:20px 10px 6px}
+.menu a{display:flex;align-items:center;min-height:42px;padding:6px 12px;border-radius:9px;color:var(--ink);text-decoration:none;font-size:15px;line-height:1.3}
+.menu a:hover{background:#fff}
+.menu a[aria-current=page]{background:var(--sky);color:#fff;font-weight:600}
+.menu ul{list-style:none;margin:4px 0 8px 18px;padding:0 0 0 10px;border-left:1px solid var(--line)}
+.menu ul a{min-height:36px;font-size:14px;color:var(--soft);padding:4px 10px}
+.menu ul a.on{color:var(--sky);font-weight:600;background:#fff}
+.side .mail{margin:26px 10px 0;font-size:14px;color:var(--soft)}
+.side .mail a{overflow-wrap:anywhere}
+html{scroll-padding-top:24px}
+@media(max-width:900px){
+.layout{display:block}
+.side{height:auto;max-height:100vh;z-index:20;padding:8px max(5vw,16px);border-right:0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px}
+.brand{padding:0}.brand b{font-size:18px}.brand span{display:none}
+.menu-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font:600 15px "IBM Plex Sans",sans-serif;cursor:pointer}
+.menu-btn:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+.js .side .menu,.js .side .mail{display:none}
+.js .side.open .menu,.js .side.open .mail{display:block}
+.side .menu,.side .mail{flex-basis:100%}
+.side.open{max-height:100vh;overflow-y:auto}
+html{scroll-padding-top:76px}
+}
+/* ---- FINAL THEME: neutral white, grey and charcoal; red only in the menu; IBM Plex throughout ---- */
+:root{--bg:#ffffff;--bg2:#f5f6f8;--line:#e2e5ea;--ink:#16181d;--soft:#4a505a;--sky:#16181d;--pink:#c8102e;--night:#0e0f12;--crim:#8f0f22}
+body{font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.brand b,.kpi .v,.stats b,.fam h3,.menu a,.menu-btn,.chips li,.go,.btn,.plate .lab{font-family:"IBM Plex Sans",system-ui,sans-serif;font-stretch:normal;font-style:normal}
+h1{font-weight:300;font-size:clamp(40px,6vw,68px);line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
+h1 b{font-weight:700;letter-spacing:-.025em}
+h2{font-weight:600;font-size:clamp(28px,3.4vw,40px);line-height:1.12;letter-spacing:-.015em;margin-bottom:18px}
+h3{font-weight:600;font-size:19px;letter-spacing:-.005em}
+.brand b{font-weight:700;letter-spacing:-.01em}
+.menu a{font-weight:500}
+.lead{font-size:clamp(18px,1.9vw,21px);line-height:1.6}
+.fam .tag,.chips.gr li{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12.5px}
+a{color:var(--ink);text-decoration-color:rgba(22,24,29,.35)}
+a:hover{text-decoration-color:currentColor}
+.hero{background-image:radial-gradient(1px 1px at 32.4% 15.1%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(2px 2px at 82.1% 9.4%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 91.0% 21.5%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(2px 2px at 41.8% 24.1%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 5.9% 56.5%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 57.7% 39.7%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 55.7% 13.3%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(2px 2px at 54.1% 57.1%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 10.3% 57.1%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(2px 2px at 9.7% 71.2%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(2px 2px at 61.9% 49.6%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 77.7% 46.6%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 30.0% 79.4%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 57.4% 52.5%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 28.8% 98.0%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 16.5% 34.2%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(2px 2px at 3.9% 66.8%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 34.0% 35.0%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 6.9% 9.4%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 69.7% 6.5%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 28.5% 38.6%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(2px 2px at 94.1% 35.5%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 49.4% 21.8%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 73.8% 39.8%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 16.6% 40.2%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 81.9% 86.4%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 98.6% 68.3%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 15.1% 17.6%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 1.2% 83.1%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(2px 2px at 28.2% 14.6%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 61.0% 31.9%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(2px 2px at 45.7% 87.1%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 39.8% 39.4%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 6.2% 6.7%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 16.2% 34.0%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 0.0% 15.1%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 61.4% 7.0%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 14.9% 25.2%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 47.4% 11.5%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 48.0% 31.2%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 75.0% 74.0%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(2px 2px at 51.6% 20.5%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 14.7% 54.3%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 97.9% 86.3%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 90.8% 35.6%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 63.6% 61.3%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 81.8% 74.0%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 51.8% 35.6%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 79.0% 47.2%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 44.7% 93.7%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 8.1% 10.2%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(2px 2px at 33.8% 48.3%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 47.9% 65.3%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 91.0% 78.2%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 88.9% 43.4%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 80.1% 97.2%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 40.1% 94.7%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(2px 2px at 99.3% 2.8%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(2px 2px at 80.7% 14.6%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(2px 2px at 65.7% 35.0%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 2.1% 79.9%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 43.4% 87.2%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1px 1px at 25.2% 29.3%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 25.9% 41.9%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 91.0% 35.4%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 82.7% 87.8%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1.5px 1.5px at 52.4% 1.9%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 60.9% 77.6%,rgba(255,255,255,0.5) 50%,transparent 100%),radial-gradient(1px 1px at 14.2% 61.9%,rgba(255,255,255,0.35) 50%,transparent 100%),radial-gradient(2px 2px at 32.6% 51.8%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(120% 95% at 65% 100%,#2b2f37 0%,#16181d 50%,#0e0f12 100%);color:#fff;border-top:0}
+.hero h1 b{color:#fff}
+.hero .lead{color:#d6dae1}
+.hero .small,.hero figcaption{color:#a8aeb8}
+.hero .chips li{border-color:rgba(255,255,255,.2);color:#d6dae1;background:rgba(255,255,255,.04)}
+.hero .chips li b{color:#fff}
+.hero .plate .lab{fill:#d6dae1}
+.hero .plate .lab.k{fill:#fff;font-weight:600}
+.byline{margin:0 0 12px;font-size:16px;color:#d6dae1;letter-spacing:.01em}
+.byline a{color:#fff;font-weight:600;text-decoration-color:rgba(255,255,255,.45)}
+.hero a{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:30px 0 6px;max-width:980px}
+.stats div{border-top:1px solid rgba(255,255,255,.22);padding-top:12px}
+.stats b{display:block;font-weight:300;font-size:clamp(30px,3vw,44px);line-height:1.05;color:#fff;letter-spacing:-.02em}
+.stats sup{font-size:.55em;line-height:0}
+.stats span{display:block;font-size:14px;color:#b8bec8;margin-top:6px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.alt{background:var(--bg2)}
+.fam{border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+a.fam:hover{border-color:#9aa1ad;box-shadow:0 14px 30px -16px rgba(0,0,0,.25)}
+.fam .tag{display:inline-block;align-self:flex-start;background:#eef0f3;color:var(--ink);border-radius:999px;padding:2px 10px;font-weight:500}
+.fam .go{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.red{background:linear-gradient(135deg,#1f232a 0%,#14161b 100%);color:#fff;border-top:0}
+.red p,.red .muted,.red li{color:#d6dae1}
+.red a{color:#fff;text-decoration-color:rgba(255,255,255,.5)}
+.red h2,.red h3{color:#fff}
+.red .chips.gr li{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:#fff}
+.red ul.dots li::marker{color:#fff}
+ul.dots li::marker{color:var(--pink)}
+.kpi{border-top:2px solid var(--ink)}
+.kpi .v{color:var(--ink);font-weight:300;font-size:clamp(30px,3.4vw,44px);letter-spacing:-.02em}
+th{background:var(--bg2);color:var(--ink)}
+.alt th{background:#eaecf0}
+.eq{border-left:2px solid var(--ink);background:#fff}
+.steps li{background:#fff;border-radius:14px}
+.steps li::before{background:#8a909b;color:#fff}
+.steps li.you::before{background:var(--ink)}
+.steps li:last-child::before{background:linear-gradient(90deg,var(--ink) 50%,#8a909b 50%)}
+.contact{border:0;border-radius:14px;background:var(--ink);color:#fff;box-shadow:0 18px 40px -22px rgba(0,0,0,.6)}
+.contact h3,.contact p{color:#fff}
+.contact a{color:#fff;font-weight:600}
+.slot{border-color:#cfd3da;background:repeating-linear-gradient(135deg,#fff 0 14px,#f5f6f8 14px 28px)}
+footer{background:var(--night);color:#a8aeb8;border-top:0}
+footer a{color:#e6e9ef}
+.white{border:1px solid var(--line)}
+.fam .tag{border-radius:8px}
+.side{background:linear-gradient(180deg,#a51128 0%,#7a0c1d 60%,#4a0713 100%);border-right:0;color:#fff}
+.layout{background:linear-gradient(90deg,#4a0713 272px,transparent 272px)}
+.brand,.brand b{color:#fff}
+.brand span{color:#ffd0d7}
+.menu .h{color:#ffbac4}
+.menu a{color:#fff1f3}
+.menu a:hover{background:rgba(255,255,255,.12)}
+.menu a[aria-current=page]{background:#fff;color:#8f0f22}
+.menu ul{border-left-color:rgba(255,255,255,.28)}
+.menu ul a{color:#ffd0d7}
+.menu ul a.on{background:rgba(255,255,255,.16);color:#fff}
+.side .mail{color:#ffbac4}
+.side .mail a{color:#fff;text-decoration-color:rgba(255,255,255,.5)}
+@media(max-width:900px){.layout{background:none}.menu-btn{background:#fff;color:#8f0f22;border-color:#fff}}
+.menu a{font-size:17px;min-height:46px}
+.menu ul a{font-size:15.5px;min-height:40px}
+.menu .h{font-size:14.5px}
+.brand b{font-size:24px}
+.brand span{font-size:14px}
+.side .mail{font-size:15px}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><b>MUCUR GRMHD</b><span>GRMHD codes for black-hole astrophysics, by Prof. Dr. Orhan Dönmez</span></a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  <nav aria-label="Site">
+  <ul class="menu" id="menu">
+    <li><a href="index.html">Home</a></li>
+    <li class="h">Codes</li>
+    <li><a href="mucur-2d-meridional.html">2D Meridional plane</a></li>
+    <li><a href="mucur-2d-equatorial.html">2D Equatorial plane</a></li>
+    <li><a href="mucur-3d.html">3D</a></li>
+    <li class="h">Developer</li>
+    <li><a href="orhan-donmez.html" aria-current="page">Prof. Dr. Orhan Dönmez</a><ul><li><a href="#bio">Biography</a></li><li><a href="#research">Research interests</a></li><li><a href="#positions">Positions</a></li><li><a href="#education">Education</a></li><li><a href="#publications">Selected publications</a></li><li><a href="#honours">Honours and grants</a></li><li><a href="#service">Service</a></li><li><a href="#talks">Talks and teaching</a></li><li><a href="#contact">Contact</a></li></ul></li>
+  </ul>
+  </nav>
+  <p class="mail">Contact<br><a href="mailto:orhan.donmez71@gmail.com">orhan.donmez71@gmail.com</a></p>
+</aside>
+<main class="main">
+<header class="band hero">
+  <div class="wrap">
+    <p class="byline">Developer of the MUCUR GRMHD codes</p>
+    <h1><b>Prof. Dr. Orhan Dönmez</b></h1>
+    <p class="lead">Professor of Physics, American University of the Middle East, Kuwait. Computational astrophysicist working on relativistic accretion and jets around black holes, in general relativity and in alternative theories of gravity.</p>
+    <ul class="chips">
+      <li>PhD, <b>Drexel University</b> and <b>NASA Goddard</b> (2002)</li>
+      <li>Researcher, <b>Max Planck Institute for Gravitational Physics</b> (2008)</li>
+      <li><b>100+</b> peer-reviewed articles</li>
+      <li>Top <b>2&nbsp;%</b> of scientists worldwide (2025, 2026)</li>
+    </ul>
+  </div>
+</header>
+<section class="band" id="bio">
+  <div class="wrap cols">
+    <div>
+      <h2>Biography</h2>
+      <p>Orhan Dönmez is Professor of Physics at the American University of the Middle East (AUM) in Kuwait, where he has taught and done research since 2015. He studied physics at Erciyes University and received his MSc (1998) and PhD (2002) in physics and astrophysics from Drexel University in Philadelphia. His doctoral research, carried out at the Laboratory for High Energy Astrophysics of NASA's Goddard Space Flight Center, built a general-relativistic hydrodynamics code with adaptive-mesh refinement and used it to model accretion discs around black holes.</p>
+      <p>He then joined Niğde University in Turkey (2004–2016), where he became Associate Professor and led the Physics and the Informatics departments. He was a researcher at the Max Planck Institute for Gravitational Physics (Albert Einstein Institute) in Golm, Germany, in 2008, and a visiting researcher at North Carolina State University in 2014.</p>
+      <p>For more than two decades he has developed numerical codes for relativistic flows around black holes. With them he studies accretion discs, Bondi–Hoyle–Lyttleton accretion, shock cones and quasi-periodic oscillations (QPOs) around rotating and non-rotating black holes, in general relativity and in alternative theories of gravity, and compares the results with the timing signatures of observed black-hole systems. The MUCUR GRMHD codes on this site are his.</p>
+    </div>
+    <div>
+      <div class="kpis" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:6px">
+        <div class="kpi"><div class="v">100+</div><div class="t">peer-reviewed journal articles</div></div>
+        <div class="kpi"><div class="v">Top 2&nbsp;%</div><div class="t">of scientists worldwide by citation impact (2025, 2026)</div></div>
+        <div class="kpi"><div class="v">20+</div><div class="t">years developing relativistic hydrodynamics and MHD codes</div></div>
+        <div class="kpi"><div class="v">3</div><div class="t">MSc theses supervised on black-hole accretion</div></div>
+      </div>
+      <h3 style="margin-top:8px">Current position</h3>
+      <p style="margin:0">Professor, Department of Science<br>American University of the Middle East (AUM), Egaila, Kuwait<br>Physics Department Research Coordinator (since 2023)</p>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="research">
+  <div class="wrap">
+    <h2>Research interests</h2>
+    <p>His research lies where relativistic astrophysics, computational gravitation, plasma physics and cosmology meet. A central aim is to connect theoretical and numerical models of accretion onto compact objects with observed data, especially the timing signatures of black-hole systems.</p>
+    <div class="cols">
+      <ul class="dots">
+        <li><b>Numerical relativistic hydrodynamics and MHD:</b> general-relativistic hydrodynamics (GRHD) and magnetohydrodynamics (GRMHD), high-resolution shock-capturing methods, adaptive-mesh refinement</li>
+        <li><b>Accretion physics:</b> accretion discs and tori, Bondi–Hoyle–Lyttleton accretion, shock cones and their instabilities, QPOs around rotating and non-rotating black holes</li>
+        <li><b>Tests of gravity:</b> accretion and QPOs around black holes in modified and alternative theories of gravity, compared with X-ray binaries, Sgr A*, M87* and active galactic nuclei</li>
+      </ul>
+      <ul class="dots">
+        <li><b>Nonlinear waves in plasmas:</b> solitary waves in laboratory and astrophysical plasmas from nonlinear partial differential equations</li>
+        <li><b>Cosmology:</b> inflation, dark matter, dark energy and the formation of large-scale structure</li>
+        <li><b>Collaborations</b> with groups worldwide on cosmology, wormholes, black-hole physics, modified gravity and accretion onto compact objects</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="positions">
+  <div class="wrap">
+    <h2>Academic positions</h2>
+    <div class="scroll">
+    <table class="stack">
+      <thead><tr><th>Years</th><th>Position</th><th>Institution</th></tr></thead>
+      <tbody>
+        <tr><td>2022–</td><td>Professor</td><td>Department of Science, American University of the Middle East, Kuwait</td></tr>
+        <tr><td>2015–2022</td><td>Associate Professor</td><td>Department of Science, American University of the Middle East, Kuwait</td></tr>
+        <tr><td>2014</td><td>Visiting researcher (3 months)</td><td>North Carolina State University, Raleigh, NC, USA</td></tr>
+        <tr><td>2012–2016</td><td>Associate Professor</td><td>Physics Department, Niğde University, Turkey</td></tr>
+        <tr><td>2008</td><td>Researcher (6 months)</td><td>Max Planck Institute for Gravitational Physics (Albert Einstein Institute), Golm, Germany</td></tr>
+        <tr><td>2004–2012</td><td>Assistant Professor</td><td>Physics Department, Niğde University, Turkey</td></tr>
+        <tr><td>2001–2002</td><td>Research assistant</td><td>Laboratory for High Energy Astrophysics, NASA Goddard Space Flight Center, Greenbelt, MD, USA</td></tr>
+        <tr><td>1998–2001</td><td>Research assistant</td><td>Physics Department, Drexel University, Philadelphia, PA, USA</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="education">
+  <div class="wrap">
+    <h2>Education</h2>
+    <div class="scroll">
+    <table class="stack">
+      <thead><tr><th>Year</th><th>Degree</th><th>Institution</th></tr></thead>
+      <tbody>
+        <tr><td>2002</td><td>PhD, Physics/Astrophysics</td><td>Drexel University and Laboratory for High Energy Astrophysics, NASA Goddard Space Flight Center</td></tr>
+        <tr><td>1998</td><td>MSc, Physics</td><td>Drexel University, Philadelphia, USA</td></tr>
+        <tr><td>1993</td><td>BSc, Physics</td><td>Erciyes University, Turkey (graduated first in the Physics Department)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="margin-top:16px"><b>Doctoral thesis:</b> <i>General relativistic hydrodynamics with adaptive-mesh refinement (AMR) and modeling of accretion disks</i> (2002). The thesis solved the general-relativistic hydrodynamics equations in conservative form with high-resolution shock-capturing schemes on adaptively refined grids, verified second-order convergence in 1D, 2D and 3D, and applied the code to accretion discs around a Schwarzschild black hole, finding spiral shocks, and to star–disc interactions near massive black holes.</p>
+  </div>
+</section>
+
+<section class="band" id="publications">
+  <div class="wrap">
+    <h2>Selected publications</h2>
+    <p>More than 100 peer-reviewed journal articles, among them papers in MNRAS, JCAP, Physics of the Dark Universe, Physics Letters B, the European Physical Journal C and Plus, Nuclear Physics B and the Journal of High Energy Astrophysics. A selection:</p>
+    <ol class="refs" style="font-size:16px">
+      <li>O. Dönmez, M. Yousaf, I. Khan, F. Doğan, G. Mustafa, <i>Global structure of accretion flows and power-spectral properties around a four-dimensional hairy black hole</i>, Annals of Physics 496, 170800 (2027)</li>
+      <li>O. Dönmez, I. Sakallı, E. Sucu, G. Mustafa, <i>Testing global-monopole gravity with shock-cone QPOs and mass estimates of Seyfert black holes</i>, Journal of High Energy Astrophysics 55, 100697 (2027)</li>
+      <li>O. Dönmez, <i>Evolution of shock structures and QPOs after halting BHL accretion onto Kerr black hole</i>, Nuclear Physics B 1027, 117483 (2026)</li>
+      <li>O. Dönmez, S. G. Ghosh, M. Yousaf, G. Mustafa, F. Atamurotov, <i>Accretion flow around Kerr metric in the infra-red limit of asymptotically safe gravity</i>, JCAP 2026 (04) (2026)</li>
+      <li>O. Dönmez, G. Mustafa, H. Chaudhary, M. Yousaf, A. Bouzenada, A. Ditta, F. Atamurotov, <i>Relativistic accretion process onto rotating black holes in Einstein–Euler–Heisenberg nonlinear electrodynamic gravity</i>, Physics of the Dark Universe 52, 102271 (2026)</li>
+      <li>O. Dönmez, M. Yousaf, I. Khan, F. Atamurotov, S. K. Maurya, <i>Global flow reconfiguration and oscillatory phenomenology in Bondi–Hoyle–Lyttleton accretion within non-conservative gravitational frameworks incorporating Euler–Heisenberg electrodynamics</i>, European Physical Journal Plus 141, 1022 (2026)</li>
+      <li>O. Dönmez, <i>Bondi–Hoyle–Lyttleton accretion around the rotating hairy Horndeski black hole</i>, JCAP 2024 (09), 006 (2024)</li>
+      <li>O. Dönmez, <i>On the development of the Papaloizou–Pringle instability of the black hole–torus systems and quasi-periodic oscillations</i>, MNRAS 438, 846 (2014)</li>
+      <li>O. Dönmez, <i>Relativistic simulation of flip-flop instabilities of the Bondi–Hoyle accretion and QPOs</i>, MNRAS 426, 1533 (2012)</li>
+      <li>O. Dönmez, O. Zanotti, L. Rezzolla, <i>On the development of QPOs in Bondi–Hoyle accretion flows</i>, MNRAS 412, 1659 (2011)</li>
+      <li>O. Dönmez, <i>Code development of three-dimensional general relativistic hydrodynamics with AMR (adaptive-mesh refinement) and results from special and general relativistic hydrodynamics</i>, Astrophysics and Space Science 293, 323 (2004)</li>
+    </ol>
+  </div>
+</section>
+
+<section class="band alt" id="honours">
+  <div class="wrap cols">
+    <div>
+      <h2>Honours and awards</h2>
+      <ul class="dots">
+        <li>Ranked among the top 2&nbsp;% of scientists worldwide by citation impact (2025, 2026)</li>
+        <li>Scientific publication awards, TÜBİTAK</li>
+        <li>Award for the most scientific publications, Niğde University (2006 and 2007)</li>
+        <li>Six-month postdoctoral research scholarship, TÜBİTAK (2008)</li>
+        <li>Master's and doctoral scholarship, Council of Higher Education of Turkey (YÖK)</li>
+        <li>Graduated first in the Physics Department and third in the Faculty of Arts and Sciences, Erciyes University</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Grants and supervision</h2>
+      <ul class="dots">
+        <li>TÜBİTAK research project 109T519 (2010–2012)</li>
+        <li>Niğde University research project, BAP (2004–2006)</li>
+        <li>MSc theses supervised at Niğde University: S. Gülada, <i>Modeling of accretion disk around the non-rotating black hole at equatorial plane</i> (2009); D. Yıldıran, <i>The modelling of accretion disk dynamics and shock cone around the rotating black hole</i> (2010); F. Koyuncu, <i>The modelling of accretion disk and the physical mechanisms that can be used to explain the results of observation around Sgr A* black hole</i> (2012)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="service">
+  <div class="wrap">
+    <h2>Service to the community</h2>
+    <div class="cols">
+      <div>
+        <h3>Editorial boards</h3>
+        <ul class="dots">
+          <li>Journal of Computational Mathematics and Physics (2026–)</li>
+          <li>International Journal of Astrophysics and Space Science (2019–2023, 2025–)</li>
+          <li>Iris Journal of Astronomy and Satellite Communications (2023–)</li>
+          <li>Journal of Astrophysics and Aerospace Technology (2020–)</li>
+          <li>Expert Opinion on Astronomy and Astrophysics (2019–)</li>
+          <li>American Journal of Astronomy and Astrophysics (2019–2022)</li>
+          <li>Journal of Advances in Applied &amp; Computational Mathematics (2018–2022)</li>
+        </ul>
+        <h3 style="margin-top:22px">Academic roles</h3>
+        <ul class="dots">
+          <li>Physics Department Research Coordinator, AUM (2023–)</li>
+          <li>Head of the Physics Department (2012–2013) and of the Informatics Department (2010–2015), Niğde University</li>
+          <li>Head of High Energy and Plasma Physics (2005–2008, 2012–2015) and Vice Chair of the Physics Department (2004–2009), Niğde University</li>
+          <li>Member of the Academic Committee of the TÜBİTAK National Observatory (2007–2011)</li>
+          <li>TÜBİTAK project evaluation panellist (2007, 2010–2015)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Referee for journals including</h3>
+        <p>Monthly Notices of the Royal Astronomical Society (since 2016), Journal of High Energy Physics, Computer Physics Communications, Physics of the Dark Universe, European Physical Journal C and Plus, Annals of Physics, Nuclear Physics B, General Relativity and Gravitation, New Astronomy and New Astronomy Reviews, Astronomy and Computing, Physics Letters A, Results in Physics, Chinese Journal of Physics, International Journal of Modern Physics A, Modern Physics Letters A, International Journal of Geometric Methods in Modern Physics, International Journal of Theoretical Physics, High Energy Density Physics and Applied Mathematics and Computation.</p>
+        <h3 style="margin-top:22px">Memberships</h3>
+        <ul class="dots">
+          <li>American Astronomical Society (2000–2003, 2021–)</li>
+          <li>American Physical Society (1997–2001)</li>
+        </ul>
+        <h3 style="margin-top:22px">High-performance computing</h3>
+        <p>Experience on ULAKBİM TR-Grid, the UYBHM National HPC Center (ITU), the Peyote cluster of the Albert Einstein Institute, the Pittsburgh Supercomputing Center and PHOENIX at AUM.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band alt" id="talks">
+  <div class="wrap cols">
+    <div>
+      <h2>Selected talks</h2>
+      <ul class="dots">
+        <li><i>Numerical simulations of QPOs in Bondi–Hoyle accretion: the case of Sgr A*</i>, 25th Texas Symposium on Relativistic Astrophysics, Heidelberg (2010)</li>
+        <li><i>The flip-flop instability of the shock cone around the rotating black hole</i>, COST Action MP0905 meeting, Bologna (2011)</li>
+        <li><i>Extracting QPOs from the disk dynamics around Sgr A*</i>, COST Action MP0905 meeting, Manchester (2011)</li>
+        <li><i>Numerical simulation of instability of the black hole–torus systems and QPOs</i>, COST and CERN meeting, Geneva (2013), and Polarization &amp; AGN II, Strasbourg (2015)</li>
+        <li><i>Perturbations of the black hole–torus system: instabilities and QPOs</i>, 41st COSPAR Scientific Assembly (2016)</li>
+        <li><i>Time scales for binary massive black holes with a circumbinary accretion disk</i>, Numerical Relativity Group seminar, Albert Einstein Institute, Golm (2008)</li>
+        <li><i>Black holes from numerical simulations to observations</i>, Department of Science seminar, AUM (2026)</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Teaching</h2>
+      <p>Courses taught at AUM and Niğde University include modern mechanics, electric and magnetic interactions, electricity and optics, introduction to optics, quantum physics, statistical mechanics, theoretical mechanics, vibrations and waves, gravitation and cosmology, high-energy astrophysics, computational gas dynamics, computational physics and astronomy.</p>
+      <p>He also gives public and student talks on black holes, dark matter and telescopes, and organised the stargazing exhibition <i>Night Sky Vision</i> at AUM (2025).</p>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="contact">
+  <div class="wrap">
+    <h2>Contact</h2>
+    <div class="contact" style="margin-top:6px">
+      <h3>Prof. Dr. Orhan Dönmez</h3>
+      <p style="margin:0 0 8px">Department of Science, American University of the Middle East, Egaila, Kuwait</p>
+      <p style="margin:0">E-mail: <a href="mailto:orhan.donmez71@gmail.com">orhan.donmez71@gmail.com</a> · <a href="mailto:orhan.donmez@aum.edu.kw">orhan.donmez@aum.edu.kw</a></p>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">MUCUR GRMHD code family<div class="links"><a href="index.html">All MUCUR GRMHD codes</a><a href="mucur-2d-meridional.html">2D Meridional plane</a><a href="mucur-2d-equatorial.html">2D Equatorial plane</a><a href="mucur-3d.html">3D</a><a href="orhan-donmez.html" aria-current="page">Prof. Dr. Orhan Dönmez</a></div></div></footer>
+</main>
+</div>
+<script>{
+const side=document.getElementById('side'),btn=side.querySelector('.menu-btn');
+btn.addEventListener('click',()=>{const o=side.classList.toggle('open');btn.setAttribute('aria-expanded',o);btn.textContent=o?'Close':'Menu'});
+side.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>{side.classList.remove('open');btn.setAttribute('aria-expanded',false);btn.textContent='Menu'}));
+const subs=[...side.querySelectorAll('.menu ul a')];
+if(subs.length&&'IntersectionObserver' in window){
+  const map=new Map(subs.map(a=>[a.getAttribute('href').slice(1),a]));
+  const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){subs.forEach(x=>x.classList.remove('on'));map.get(e.target.id)?.classList.add('on')}})},{rootMargin:'-30% 0px -60% 0px'});
+  map.forEach((a,id)=>{const s=document.getElementById(id);if(s)spy.observe(s)});
+}
+}</script>
+</body>
+</html>
