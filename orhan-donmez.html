@@ -211,6 +211,21 @@ main h2::before{content:"";position:absolute;left:0;top:0;width:56px;height:4px;
 .orbit-ctrl button:hover{border-color:#ffa94d}
 .orbit-ctrl button:focus-visible{outline:2px solid #ffa94d;outline-offset:2px}
 .orbit-ctrl span{font-size:14px;color:#a8aeb8}
+.hero{position:relative}
+@media(min-width:1101px){
+ .hero-top{grid-template-columns:minmax(0,1fr)}
+ .hero-text{padding-right:370px}
+ .devcard{position:absolute;top:clamp(24px,3vw,44px);right:clamp(16px,2vw,32px);width:340px;margin:0;z-index:2}
+}
+.aum{min-height:0;padding:16px 18px}
+.aum img{max-height:none;width:100%}
+.menu a{font-size:18.5px}
+.menu ul a{font-size:17px}
+.menu .h{font-size:16px}
+.brand b{font-size:25.5px}
+.brand span{font-size:15.5px}
+.side .mail{font-size:16.5px}
+.search input{font-size:17px}
 /* search */
 .search{margin:16px 0 4px;position:relative}
 .search label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
